@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# Hierarchical Combobox
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A scalable hierarchical selection component built from scratch with React 18, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Live Storybook
+https://699c50c4e3408acd4576e830-eqadybhwbg.chromatic.com/
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
+- Async tree loading with loading spinner
+- Custom virtualized rendering (no libraries)
+- Multi-select with indeterminate checkbox states
+- Full keyboard navigation (Arrow keys, Enter, Space, Escape)
+- Screen reader support via ARIA roles
+- Search with real-time filtering
 
-## React Compiler
+## Tech Stack
+- React 18
+- TypeScript (strict mode)
+- Vite
+- Tailwind CSS
+- Storybook
+- Chromatic
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Getting Started
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Install dependencies
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Run development server
+```bash
+npm run dev
 ```
+
+### Run Storybook
+```bash
+npm run storybook
+```
+
+### Deploy to Chromatic
+```bash
+npm run chromatic
+```
+
+## Keyboard Navigation
+| Key | Action |
+|-----|--------|
+| Arrow Down | Move focus down |
+| Arrow Up | Move focus up |
+| Arrow Right | Expand node |
+| Arrow Left | Collapse node |
+| Enter / Space | Select item |
+| Escape | Close dropdown |
+
+## Component API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| placeholder | string | 'Select options...' | Trigger button text |
+| maxHeight | number | 320 | Dropdown height in px |
+| onChange | (ids: string[]) => void | - | Called when selection changes |
+
+## Project Structure
+```
+src/
+├── components/
+│   └── HierarchicalCombobox/
+│       ├── types.ts                        # TypeScript interfaces
+│       ├── mockData.ts                     # Mock tree data + async loader
+│       ├── useTreeState.ts                 # Tree expand/select logic
+│       ├── useVirtualizer.ts               # Custom virtualization
+│       ├── useKeyboard.ts                  # Keyboard navigation
+│       ├── TreeNode.tsx                    # Single tree row
+│       ├── SearchInput.tsx                 # Search box
+│       ├── SelectedTags.tsx                # Selected item tags
+│       ├── ComboboxTrigger.tsx             # Trigger button
+│       ├── HierarchicalCombobox.tsx        # Main component
+│       └── HierarchicalCombobox.stories.tsx
+├── styles/
+│   └── tokens.css                          # CSS design tokens
+```
+
+## Accessibility
+- ARIA tree/treeitem roles
+- aria-selected, aria-expanded, aria-level
+- aria-checked with mixed state for indeterminate
+- Focus management on open/close
+- Screen reader announcements via role="status"
